@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  greeter_server:
+    image: greeter
+    build:
+      context: ./greeter
+      dockerfile: Dockerfile
+    command: ["go", "run", "greeter_server/main.go"]
+  greeter_client:
+    image: greeter
+    build:
+      context: ./greeter
+      dockerfile: Dockerfile
+    network_mode: "host"
+    command: ["go", "run", "greeter_client/main.go"]
+    depends_on:
+    - caddy
+  caddy:
+    image: caddy:h2c
+    build:
+      context: ./caddy-h2c
+      dockerfile: Dockerfile
+    ports:
+    - "50051:80"
+    depends_on:
+    - greeter_server

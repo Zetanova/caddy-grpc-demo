@@ -1,0 +1,56 @@
+{
+    "logging": {
+        "logs": {
+            "log0": {
+                "level": "DEBUG",
+                "include": [
+                    "http.log.access.log0"
+                ]
+            }
+        }
+    },
+    "apps": {
+        "http": {
+            "servers": {
+                "srv0": {
+                    "listen": [
+                        ":80"
+                    ],
+                    "insecure_h2c": true,
+                    "routes": [
+                        {
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "headers": {
+                                        "request": {
+                                            "set": {
+                                                "Host": [
+                                                    "localhost"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "transport": {
+                                        "protocol": "http",
+                                        "versions": ["h2c"]
+                                    },
+                                    "upstreams": [
+                                        {
+                                            "dial": "greeter_server:50051"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "logs": {
+                        "logger_names": {
+                            "": "log0"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
