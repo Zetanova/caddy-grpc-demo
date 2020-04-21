@@ -1,6 +1,6 @@
 FROM golang:1.14-alpine3.11 AS builder
 
-ENV CADDY_COMMIT b61e1a200635bac21b9c9992266ebe66b19910be
+ENV CADDY_COMMIT 3c55cf9b3fa7cdf4141e871fefaa7e8ce8ec57ee
 
 WORKDIR /go/src
 
